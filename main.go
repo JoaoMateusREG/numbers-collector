@@ -30,7 +30,8 @@ func main() {
 	sqlStmt := `
 	CREATE TABLE IF NOT EXISTS registros (
 		cpf TEXT PRIMARY KEY,
-		numero INTEGER
+		numero INTEGER,
+		lst_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);`
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
@@ -54,6 +55,7 @@ func manipularRegistro(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erro ao ler JSON", http.StatusBadRequest) // [2]
 		return
 	}
+
 
 	// 1. Normalizar o CPF: Remover tudo que não for número antes de validar e salvar
     re := regexp.MustCompile(`[^0-9]`)
